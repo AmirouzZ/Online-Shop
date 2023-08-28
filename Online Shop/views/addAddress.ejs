@@ -1,0 +1,32 @@
+
+<%- include('parts/header.ejs')%>
+<body>
+    <%- include('parts/navbar.ejs')%>
+<div class="container">
+    <br>
+
+<form action="/order/submit" method="POST">
+    <%if(order) { %>
+        <input type="hidden" name="email" value="<%= order.email %>"> 
+        <input type="hidden" name="amount" value="<%= order.amount %>"> 
+        <input type="hidden" name="name" value="<%= order.name %>">
+        <input type="hidden" name="cardId" value="<%= order.cardId %>">
+        <input type="hidden" name="price" value="<%= order.price * order.amount %>"> 
+    
+        <% } %>
+
+
+
+
+
+        <input type="text" name="address" placeholder="Address" class="form-control">
+    <input type="submit" value="Order" class="btn btn-success">
+</form>
+<% if(validationAddressERR) { %>
+    <p class="alert alert-danger">
+        <%= validationAddressERR.msg %>
+    </p>
+    <% } %> 
+</div>
+</body>
+<%- include('parts/footer.ejs')%>

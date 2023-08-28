@@ -1,0 +1,60 @@
+
+
+    
+<%- include('parts/header.ejs')%>
+<body>
+    <%- include('parts/navbar.ejs')%>
+
+    <div class="container">
+<% if(orders.length === 0) { %>
+    <p class="alert alert-danger">
+        There is no items
+    </p>
+     <% } else { %>
+        <table>
+            <thead>
+                <td>No</td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Amount</td>
+                <td>Total</td>
+                <td>Address</td>
+                <td>Status</td>
+                <td>Time</td>
+            </thead>
+            <tbody>
+                <% for(let i=0; i < orders.length; i++) { %>
+                    <tr>
+                        <td> <%= i+1 %> </td>
+                        <td> <%= orders[i].name %></td>
+                        <td> <%= orders[i].price %>$ </td>
+                        <form method="POST">
+                            <td> <%= orders[i].amount %>     </td>
+                            <td> <%= orders[i].price * orders[i].amount %>$ </td>
+                            <td> <%= orders[i].address %>     </td>
+                            <td> <%= orders[i].status %>     </td>
+                            <td> <%= orders[i].timestamp %>     </td>
+
+                            <td>
+                                <input type="submit" class="btn btn-danger" value="cancel" formaction="/order/cancel">
+                            </td>
+                        </form>
+                    </tr> 
+                   
+                    <% } %>
+            </tbody>
+        </table>
+<% } %>
+        <% if(orders.length != 0) { %>
+            <form action="/order/cancelAll" method="POST">
+                <input type="submit" class="btn btn-danger" value="cancel All">
+            </form>    
+             <% } %>
+     
+    
+
+      
+
+    </div>
+</body>
+<%- include('parts/footer.ejs')%>

@@ -1,0 +1,74 @@
+<%- include('parts/header.ejs')%>
+<body>
+    <%- include('parts/navbar.ejs')%>
+
+    <div class="container">
+
+     
+            <form action="/" method="GET">
+            <select name="categorey" class="form-control">
+                <option value="all">All</option>
+                <option value="clothes">Clothes</option>
+                <option value="mobilephone">MobilePhone</option>
+                <option value="laptob">Laptop</option> 
+                <option value="shoes">Shoes</option> 
+
+            </select>
+            <input type="submit" class="btn btn-primary" value="Filter">
+        </form>
+       
+        <% if(addProductSuccess) { %>
+            <p class="alert alert-primary"> 
+                <%= addProductSuccess%>
+           </p>
+    
+            <% } %>
+    
+    
+
+            <% if(validationCardERR) { %>
+        <p class="alert alert-danger">
+            <%= validationCardERR.msg %>
+        </p>
+        <% } %>
+
+<% if(products.length == 0){ %>
+    <div class="alert alert-danger">
+        There is no products
+    </div>
+    <% }else{ %>
+        <div class="row">
+            <% for(let product of products) { %>
+                <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card" style="width: 18rem;">
+                        <img src="<%= product.image%>" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/product/<%= product._id%>"><%= product.name%></a>
+                                    
+            <p>Price: <%= product.price%> $</p>
+        </h5>
+        <p class="card-text"><%= product.description%></p>
+    <!--
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    -->
+    <form action="/card" method="POST" class="add-to-card-form">
+        <input type="number" name="amount" class="form-control">
+        <input type="hidden" name="name" value="<%=product.name%>">
+        <input type="hidden" name="price" value="<%=product.price%>">
+        <input type="hidden" name="productId" value="<%=product._id%>">
+        <input type="hidden" name="redirectTo" value="/">
+        <input type="submit" value="Add TO Card" class="btn btn-primary">
+    </form>  
+    </div>
+            </div>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+    
+
+</body>
+    <%- include('parts/footer.ejs')%>

@@ -1,0 +1,67 @@
+
+<%- include('parts/header.ejs')%>
+<body>
+    <%- include('parts/navbar.ejs')%>
+
+    <div class="container">
+<% if(items.length === 0) { %>
+    <p class="alert alert-danger">
+        There is no items
+    </p>
+    <% } else { %>
+        <% if(validationCardERR){ %>
+            <p class="alert alert-danger">
+                <%= validationCardERR.msg %>
+            </p>
+        <% } %>
+        <table border="1">
+            <thead>
+                <td>No</td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Amount</td>
+                <td>Total</td>
+            </thead>
+            <tbody>
+                <% for(let i=0; i < items.length; i++) { %>
+                    <tr>
+                        <td> <%= i+1 %> </td>
+                        <td> <%= items[i].name %></td>
+                        <!-- <div><%= items%></div> -->
+                        <form method="POST">
+                            <td> <%= items[i].price %> $ </td>
+                            <td> <input type="text" name="amount" class="form-control" value="<%= items[i].amount %>"> </td>
+                            <td> <%= items[i].price * items[i].amount %> $ </td>
+                            <td>
+                                <input type="hidden" name="name" value="<%= items[i].name %>">
+                                <!-- <input type="hidden" name="items" value="<%= items%>"> -->
+
+                                <input type="hidden" name="cardId" value="<%= items[i]._id %>">
+
+                                <input type="hidden" name="price" value="<%= items[i].price * items[i].amount %>"> 
+                                <input type="submit" class="btn btn-success" value="Save" formaction="/card/save">
+                                <input type="submit" class="btn btn-danger" value="Delete" formaction="/card/delete">
+                                <input type="submit" class="btn btn-success" value="Order" formaction="/order/toAddAddress">
+
+                            </td>
+                        </tr> 
+                    </form>
+                   
+                    <% } %>
+            </tbody>
+        </table>
+        <form action="/card/deleteAll" method="POST">
+            <input type="submit" class="btn btn-danger" value="Delete All">
+        </form>
+        <form action="/order/toAddAddress" method="POST">
+            <input type="submit" class="btn btn-danger" value="Order All">
+        </form>
+        <% } %>
+
+    
+
+      
+
+    </div>
+</body>
+<%- include('parts/footer.ejs')%>

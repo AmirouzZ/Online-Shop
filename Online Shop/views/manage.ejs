@@ -1,0 +1,116 @@
+
+<%- include('parts/header.ejs')%>
+<body>
+    <%- include('parts/navbar.ejs')%>
+
+
+
+    <div class="container">
+<% if(orders.length === 0) { %>
+    <p class="alert alert-danger">
+        There is no orders
+    </p>
+    <% } else { %>
+    <br>
+        <!-- <form method="POST">
+            
+        </form> -->
+        <form method="POST">
+            <input type="submit" value="All" class="btn btn-primary" formaction="/admin/all">
+            <input type="submit" value="Pending" class="btn btn-primary" formaction="/admin/pending">
+            <input type="submit" value="Sent" class="btn btn-primary" formaction="/admin/sent">
+            <input type="submit" value="Completed" class="btn btn-primary" formaction="/admin/completed">
+           
+            <br>
+            <br>
+           
+
+            <input type="text" name="email" placeholder="User Email" class="form-control">
+            <br>    
+
+            <input type="submit" value="Search" class="btn btn-primary" formaction="/admin/search">
+
+            <% if(searchedEmail) { %>
+                <h3>orders for:  <%= searchedEmail%></h3> 
+
+
+
+                <% } %>
+                 <input type="hidden" value="<%= searchedEmail%>" name="searchedEmail">
+
+                 <% if(errorAdminSearch) { %>
+                <p class="alert alert-danger">
+                    <%= errorAdminSearch.msg %>
+                </p>
+            <% } %>
+
+        </form>
+        <table border="1">
+            <thead>
+                <td>No</td>
+                <td>Email</td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Amount</td>
+                <td>Total</td>
+                <td>address</td>
+                <td>status</td>
+                <td>time</td>
+
+            </thead>
+            <tbody>
+                <% for(let i=0; i < orders.length; i++) { %>
+                    <tr>
+                        <td> <%= i+1 %> </td>
+                        <td> <%= orders[i].email %>  </td>
+
+                        <td> <%= orders[i].name %></td>
+                        <form method="POST">
+                            <td> <%= orders[i].price %> $ </td>
+                            <td> <%= orders[i].amount %> </td>
+                            <td> <%= orders[i].price * orders[i].amount %> $ </td>
+                            <td> <%= orders[i].address %></td>
+                          <td>
+                            <select type="password" class="form-control" name="status">
+
+                                <!-- <option value="current"></option> -->
+                                <option value="<%= orders[i].status%>" selected><%= orders[i].status%></option>
+                                <option value="pending">pending</option>
+                                <option value="sent">sent</option>
+                                <option value="completed">completed</option>
+
+                              </select>
+                          </td>  
+                            <td> <%= orders[i].timestamp %></td>
+
+                            <td>
+                                <!-- <input type="hidden" name="name" value="<%= orders[i].name %>"> -->
+
+                                <input type="hidden" name="cardId" value="<%= orders[i]._id %>">
+                                <!-- <input type="hidden" name="price" value="<%= orders[i].price * orders[i].amount %>">  -->
+                                <input type="submit" class="btn btn-success" value="Save" formaction="/admin/sentOrder">
+                                <!-- <input type="submit" class="btn btn-danger" value="Delete" formaction="/card/delete"> -->
+                                <!-- <input type="submit" class="btn btn-success" value="Order" formaction="/order/toAddAddress"> -->
+
+                            </td>
+                        </tr> 
+                    </form>
+                   
+                    <% } %>
+            </tbody>
+        </table>
+        <!-- <form action="/card/deleteAll" method="POST">
+            <input type="submit" class="btn btn-danger" value="Delete All">
+        </form>
+        <form action="/order/toAddAddress" method="POST">
+            <input type="submit" class="btn btn-danger" value="Order All">
+        </form> -->
+        <% } %>
+
+    
+
+      
+
+    </div>
+</body>
+<%- include('parts/footer.ejs')%>
